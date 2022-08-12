@@ -6,6 +6,7 @@ $username$hostname$directory$git_branch$git_status\n$character
 
 [git_branch]
 format = "on [ $symbol$branch ](bold black bg:white)"
+truncation_length = 24
 
 [git_status]
 format = "([$all_status$ahead_behind]($style))"
