@@ -1,38 +1,67 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
 add_newline = true
 
 format = """
-$username$hostname$directory$git_branch$git_status\n$character 
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$line_break\
+$character\
+"""
+
+right_format = """
+$docker_context\
+$container\
 """
 
 [git_branch]
-format = "on [ $symbol$branch ](bold black bg:white)"
-truncation_length = 24
+format = "on [ $symbol$branch ](bold black)"
+truncation_length = 16
 
 [git_status]
 format = "([$all_status$ahead_behind]($style))"
-conflicted = "[ 🏳 conflicted ](bg:red white) "
-ahead = "[ 🏎💨 ](bg:bright-black white)"
-behind = "[ 😰 behind ](bg:bright-black white)"
-diverged = "[ 😵 diverged ](bg:bright-black white)"
-up_to_date = "[ ✓ up-to-date ](bg:bright-black white)"
-untracked = "[ 🤷 ‍untracked ](bg:bright-black white)"
-stashed = "[ 📦 stashed ](bg:bright-black white)"
-modified = "[ 📝 modified ](bg:yellow bright-black)"
-staged = '[ ++\($count\) ](bg:green white)'
-renamed = "👅"
-deleted = "🗑"
+conflicted = "[ 🏳🤺 conflicted ](bg:red white) "
+ahead = "[ 🏎💨ahead ](bg:bright-black white)"
+behind = "[ 😰🔄behind ](bg:bright-black white)"
+diverged = "[ 😵diverged ](bg:bright-black white)"
+up_to_date = "[ ✓ ](bright-black)"
+untracked = "[ 🤷$count ](bright-black)"
+stashed = "[ 📦$count ](bg:bright-black white)"
+modified = "[ 📝$count ](yellow)"
+staged = '[ ++$count ](green)'
+renamed = "[ 🏷️$count ](cyan)"
+deleted = "[ 🗑️ $count ](red)"
 
 [nodejs]
 format = "via [$version](bold green) "
 
+[python]
+# Display the version of python from inside a local venv.
+#
+# Note this will only work when the venv is inside the project and it will only
+# work in the directory that contains the venv dir but maybe this is ok?
+format = "via [\ue606 $venv $version](bold yellow) "
+python_binary = ['./venv/bin/python', 'python', 'python3', 'python2']
+detect_files = [ "requirements.txt", ".python-version", "pyproject.toml", "Pipfile", "tox.ini", "setup.py", "__init__.py" ]
+
+[docker_context]
+format = 'via [🐳 $context](blue bold)'
+
+[container]
+format = 'in [\uf4b7 $name](blue bold) '
+
 [directory]
-format = "in [$path](cyan italic) "
+format = "in [ $path](cyan italic) "
 
 [username]
 show_always = true
-style_user = "yellow"
+style_user = "purple"
 style_root = "red"
-format = "[$user]($style) "
+format = "[\uf2c0 $user]($style) "
 
 [hostname]
 ssh_only = true

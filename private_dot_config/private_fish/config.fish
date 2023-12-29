@@ -4,17 +4,26 @@ end
 
 abbr --add cfgfish code ~/.config/fish/config.fish
 abbr --add cfgstarship code ~/.config/fish/starship.toml
-abbr --add lt exa -T -L 3
+abbr --add exaa exa -a -l --no-time --no-user --git -I=.git --git-ignore --icons --tree -L=9
 
-eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv) # homebrewにパスを通す
-starship init fish | source # プロンプトをきれいにするstarshipの実行用 
+# Homebrew - Package Manager for macOS
+eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
-#Nodeバージョン管理ツールVolta用
+# Starship - Prompt Formatter
+starship init fish | source
+
+# Volta - Node version manager
 set -gx VOLTA_HOME "$HOME/.volta"
 set -gx PATH "$VOLTA_HOME/bin" $PATH
 
 # rustup
 set -gx PATH "$HOME/.cargo/bin" $PATH
 
-# WSLからブラウザを開けるように
+# pnpm
+set -gx PNPM_HOME "$HOME/Library/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+
+# WSL
 set BROWSER "pwsh.exe /c start"
