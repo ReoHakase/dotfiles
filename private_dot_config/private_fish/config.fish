@@ -19,6 +19,10 @@ if not string match -q -- $PNPM_HOME $PATH
   set -gx PATH "$PNPM_HOME" $PATH
 end
 
+# pyenv
+set -Ux PYENV_ROOT $HOME/.pyenv
+fish_add_path $PYENV_ROOT/bin
+
 # WSL
 # proto
 set -gx PROTO_HOME "$HOME/.proto"
