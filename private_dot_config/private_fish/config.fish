@@ -2,8 +2,6 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-abbr --add cfgfish code ~/.config/fish/config.fish
-abbr --add cfgstarship code ~/.config/fish/starship.toml
 abbr --add exaa exa -a -l --no-time --no-user --git -I=.git --git-ignore --icons --tree -L=9
 
 # Homebrew - Package Manager for macOS
