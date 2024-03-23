@@ -48,11 +48,8 @@ format = "via [\ue606 $venv $version](bold yellow) "
 python_binary = ['./venv/bin/python', 'python', 'python3', 'python2']
 detect_files = [ "requirements.txt", ".python-version", "pyproject.toml", "Pipfile", "tox.ini", "setup.py", "__init__.py" ]
 
-[docker_context]
-format = 'via [🐳 $context](blue bold)'
-
 [container]
-format = 'in [\uf4b7 $name](blue bold) '
+format = 'in [🐳 $name](blue bold) '
 
 [directory]
 format = "in [ $path](cyan italic) "
