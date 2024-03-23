@@ -10,10 +10,6 @@ eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 # Starship - Prompt Formatter
 starship init fish | source
 
-# Volta - Node version manager
-set -gx VOLTA_HOME "$HOME/.volta"
-set -gx PATH "$VOLTA_HOME/bin" $PATH
-
 # rustup
 set -gx PATH "$HOME/.cargo/bin" $PATH
 
@@ -24,4 +20,6 @@ if not string match -q -- $PNPM_HOME $PATH
 end
 
 # WSL
-set BROWSER "pwsh.exe /c start"
+# proto
+set -gx PROTO_HOME "$HOME/.proto"
+set -gx PATH "$PROTO_HOME/shims:$PROTO_HOME/bin" $PATH
