@@ -3,6 +3,11 @@ if status is-interactive
 end
 
 abbr --add exaa exa -a -l --no-time --no-user --git -I=.git --git-ignore --icons --tree -L=9
+abbr --add gs git switch
+abbr --add gsc git switch -c
+abbr --add gpush git push origin HEAD
+abbr --add gpull git pull origin HEAD
+abbr --add gstash git stash -u
 
 # Homebrew - Package Manager for macOS
 if test -n (command -v brew)
