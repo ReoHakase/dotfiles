@@ -5,7 +5,9 @@ end
 abbr --add exaa exa -a -l --no-time --no-user --git -I=.git --git-ignore --icons --tree -L=9
 
 # Homebrew - Package Manager for macOS
-eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+if test -n (command -v brew)
+  eval (brew shellenv)
+end
 
 # Starship - Prompt Formatter
 starship init fish | source
