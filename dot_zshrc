@@ -1,0 +1,90 @@
+eval "$(starship init zsh)"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/ReoHakase/.cache/lm-studio/bin"
+
+# zsh-autosuggestion
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# zsh-syntax-highlighting
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# zsh-abbr
+source /opt/homebrew/share/zsh-abbr/zsh-abbr.zsh
+# if type brew &>/dev/null; then
+#   FPATH=$(brew --prefix)/share/zsh-abbr:$FPATH
+
+#   autoload -Uz compinit
+#   compinit
+# fi
+
+# Git and GitHub CLI
+abbr -S gs="git switch"
+abbr -S gsc="git switch -c"
+abbr -S gpush="git push origin HEAD"
+abbr -S gpull="git pull origin HEAD"
+abbr -S gc-="git reset --soft HEAD^"
+abbr -S gc="git commit -S"
+abbr -S ghi="gh issue create"
+abbr -S ghp="gh pr create"
+abbr -S ghw="gh repo view -w"
+
+# proto
+export PROTO_HOME="$HOME/.proto";
+export PATH="$PROTO_HOME/shims:$PROTO_HOME/bin:$PATH";
+
+# for gpg prompt
+export GPG_TTY=$(tty)
+
+# uv
+# eval "$(uv generate-shell-completion zsh)"
+
+# Tethering (Hotspot) limit bypass
+function hotspot() {
+  if [ "$#" -ne 1 ]; then
+    echo "Usage: ${0} <on|off>"
+    return
+  fi
+
+  on_or_off="${1}"
+
+  if [ "${on_or_off}" = "on" ]; then
+    # TTL(Time To Live)を64から65に増やして追加のホップを加える。
+    # TTLが64(デフォルト)の場合、テザリングされた端末から発信されるパケットは、携帯回線に届くときにTTLが63になってしまう。
+    # キャリアはこれを利用して電話トラフィックとホットスポットのトラフィックを区別し、制限をかけている。
+    # そこで、TTLを65に上げることで、テザリングの親端末からのパケットに偽装して、この問題を回避する。
+    sudo sysctl net.inet.ip.ttl=65
+    # また、Mac OSではIPv6のTTL設定（HLIMとして知られる）が適用されないため、IPv6を無効にする。
+    sudo networksetup -setv6off "Wi-Fi"
+    echo "Hotspot mode is now enabled."
+  else
+    # ホットスポットの修正を元に戻し、Wi-Fi接続時にIPv6を再度有効にする
+    sudo sysctl net.inet.ip.ttl=64
+    sudo networksetup -setv6automatic "Wi-Fi"
+    echo "Hotspot mode is now disabled."
+  fi
+}
+
+# ~/.zshrc
+# Cursor macOS 通知用コマンド
+function cursor-notify() {
+  if [ "$#" -ne 1 ]; then
+    echo "Usage: ${0} <Message>"
+    return
+  fi
+
+  cursor_app_id="com.todesktop.230313mzl4w4u92"
+
+  git rev-parse --is-inside-work-tree &>/dev/null
+  if [[ $? -eq 0 ]]; then
+    repo_root=$(git rev-parse --show-toplevel)
+    repo_name=$(basename "$repo_root")
+    branch_name=$(git branch --show-current)
+    subtitle="${repo_name} (${branch_name})"
+  else
+    subtitle="$(pwd)"
+  fi
+
+  terminal-notifier -group 'cursor' -title 'Cursor' -subtitle "$subtitle" -message "$1" -activate "$cursor_app_id" -sender "$cursor_app_id" -ignoreDnD -sound Funk
+  say "$1"
+}
